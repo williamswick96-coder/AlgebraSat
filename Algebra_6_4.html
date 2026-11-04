@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Module - Section 6.4 Properties of Logarithmic Functions</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for TeX Rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        #animal-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(37, 99, 235, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); }
+        }
+        .token-glow {
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+
+    <!-- Grand Animal Celebration Canvas -->
+    <canvas id="animal-canvas"></canvas>
+
+    <!-- Header Navigation -->
+    <header class="bg-white/95 border-b border-slate-200 sticky top-0 z-30 backdrop-blur-md shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-600 text-white p-2.5 rounded-xl font-bold text-lg shadow-md shadow-amber-600/20">
+                    <i class="fa-solid fa-hippo"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-slate-900 leading-tight">Algebra Practice Module</h1>
+                    <span class="text-xs text-amber-600 font-semibold">Section 6.4 • Logarithm Properties</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div class="bg-slate-100 border border-slate-300 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-700">
+                    <i class="fa-solid fa-list-check text-amber-600"></i>
+                    <span>Score: <strong id="score-counter" class="text-amber-600">0</strong> / 11</span>
+                </div>
+                <button onclick="triggerAnimalCelebration()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-md shadow-amber-600/20 transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-paw"></i> Animal Parade
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+        <!-- Student Name & Info Banner -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
+                <div>
+                    <h2 class="text-xl font-black text-slate-900">Section 6.4: Properties of Logarithms</h2>
+                    <p class="text-xs text-slate-500 font-medium">Reference problem statements on page 382.</p>
+                </div>
+                <span class="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-extrabold border border-amber-200">11 Assigned Problems</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1" for="student-first-name">First Name <span class="text-rose-500">*</span></label>
+                    <input type="text" id="student-first-name" placeholder="Enter first name..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 font-medium focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1" for="student-last-name">Last Name <span class="text-rose-500">*</span></label>
+                    <input type="text" id="student-last-name" placeholder="Enter last name..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 font-medium focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1 Banner -->
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 font-bold text-amber-900 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Part I: Write each expression as a sum or difference of logarithms. Then simplify, if possible. (#13–16)</span>
+        </div>
+
+        <!-- Problem #13 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q1">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 1 (#13 - Expand Logarithm)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q1">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Write as a sum or difference: <strong>\(\log_b (5 \cdot 8)\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q1" placeholder="e.g. log_b 5 + log_b 8..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q1')" id="btn-q1" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #13
+                </button>
+            </div>
+            <div id="feedback-q1" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #14 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q2">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 2 (#14 - Expand Logarithm)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q2">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Write as a sum or difference: <strong>\(\log_7 8xy\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q2" placeholder="e.g. log_7 8 + log_7 x + log_7 y..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q2')" id="btn-q2" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #14
+                </button>
+            </div>
+            <div id="feedback-q2" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #15 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 3 (#15 - Expand Logarithm)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q3">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Write as a sum or difference: <strong>\(\log_b \frac{x}{9}\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q3" placeholder="e.g. log_b x - log_b 9..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q3')" id="btn-q3" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #15
+                </button>
+            </div>
+            <div id="feedback-q3" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #16 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 4 (#16 - Expand & Simplify)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q4">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Write as a sum or difference and simplify fully: <strong>\(\log_4 \frac{x}{32}\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q4" placeholder="e.g. log_4 x - 2.5..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q4')" id="btn-q4" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #16
+                </button>
+            </div>
+            <div id="feedback-q4" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Section 2 Banner -->
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 font-bold text-amber-900 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span>Part II: Write each expression as a single logarithm. Then simplify, if possible. (#29–41 odd)</span>
+        </div>
+
+        <!-- Problem #29 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q5">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 5 (#29 - Condense & Simplify)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q5">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(\log_7 5 + \log_7 7\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q5" placeholder="e.g. log_7 35..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q5')" id="btn-q5" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #29
+                </button>
+            </div>
+            <div id="feedback-q5" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #31 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 6 (#31 - Condense & Simplify)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q6">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(\log_7 45 - \log_7 9\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q6" placeholder="e.g. log_7 5..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q6')" id="btn-q6" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #31
+                </button>
+            </div>
+            <div id="feedback-q6" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #33 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q7">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 7 (#33 - Condense & Simplify)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q7">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(\log_2 5 + \log_2 x - \log_2 10\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q7" placeholder="e.g. log_2 (x/2)..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q7')" id="btn-q7" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #33
+                </button>
+            </div>
+            <div id="feedback-q7" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #35 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q8">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 8 (#35 - Condense & Simplify)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q8">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(\log_7 3x - \log_7 9x + \log_7 6y\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q8" placeholder="e.g. log_7 2y..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q8')" id="btn-q8" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #35
+                </button>
+            </div>
+            <div id="feedback-q8" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #37 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q9">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 9 (#37 - Condense Power Rule)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q9">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(5\log_2 m - 2\log_2 n\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q9" placeholder="e.g. log_2 (m^5 / n^2)..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q9')" id="btn-q9" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #37
+                </button>
+            </div>
+            <div id="feedback-q9" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #39 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q10">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 10 (#39 - Condense Multi-Term)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q10">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(4\log_b m + \frac{1}{2}\log_b n - 3\log_b 2p\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q10" placeholder="e.g. log_b ( (m^4 sqrt(n)) / (8p^3) )..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q10')" id="btn-q10" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #39
+                </button>
+            </div>
+            <div id="feedback-q10" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Problem #41 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm transition-all" id="card-q11">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Problem 11 (#41 - Condense with Constant)</span>
+                <span class="text-xs text-slate-400 font-medium" id="status-q11">Attempts left: 2</span>
+            </div>
+            <p class="text-sm text-slate-800 mb-3">Condense into a single logarithm: <strong>\(1 - 2\log_7 x\)</strong></p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <input type="text" id="input-q11" placeholder="e.g. log_7 (7 / x^2)..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-amber-600 focus:bg-white transition-all">
+                <button onclick="checkQuestion('q11')" id="btn-q11" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit #41
+                </button>
+            </div>
+            <div id="feedback-q11" class="mt-3 hidden text-xs font-semibold rounded-xl p-3"></div>
+        </div>
+
+        <!-- Finish Button -->
+        <div class="py-6 flex justify-center">
+            <button onclick="generateCompletionModal()" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 hover:from-amber-500 hover:to-orange-500 text-white font-extrabold rounded-2xl text-base shadow-xl shadow-amber-600/30 transition-all transform hover:scale-105 flex items-center justify-center gap-3">
+                <i class="fa-solid fa-award"></i> Submit Completed Module & View Grade Token
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Modal Pop-Up Grade Token View -->
+    <div id="completion-modal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 border border-slate-200 text-center space-y-5 transform transition-all">
+            
+            <div class="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-amber-100 shadow-sm">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-black text-slate-900">Module Completed!</h3>
+                <p id="modal-student-name" class="text-sm font-semibold text-amber-600">Student: Anonymous</p>
+                <span id="modal-score-badge" class="inline-block px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-bold mt-2">
+                    Score: 0 / 11 (0%)
+                </span>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left space-y-2">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Official Grade Verification Token</label>
+                <div class="flex items-center gap-2 bg-white p-3 rounded-xl border border-slate-300 font-mono text-xs font-bold text-slate-800 break-all select-all">
+                    <span id="token-display">MATH-GRADE::...</span>
+                </div>
+                <button onclick="copyTokenToClipboard()" id="copy-token-btn" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-copy"></i> Copy Token to Clipboard
+                </button>
+            </div>
+
+            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-100 text-left space-y-2 text-xs text-slate-700">
+                <h4 class="font-extrabold text-amber-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-info"></i> Instructions to Submit to Dr. Swick via Jupiter:
+                </h4>
+                <ol class="list-decimal list-inside space-y-1 font-medium text-slate-600">
+                    <li>Click <strong>"Copy Token to Clipboard"</strong> above.</li>
+                    <li>Log into your <strong>JupiterEd</strong> account.</li>
+                    <li>Open your Math class assignment (or send a direct Message to Dr. Swick).</li>
+                    <li>Paste the token string into the comment/message body and click <strong>Turn In / Send</strong>.</li>
+                </ol>
+            </div>
+
+            <div class="pt-2">
+                <button onclick="closeCompletionModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all">
+                    Close Window
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Script -->
+    <script>
+        const canvas = document.getElementById('animal-canvas');
+        const ctx = canvas.getContext('2d');
+        let animId = null;
+        let moduleStartTime = Date.now();
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Audio Context for Large Animal Roar & Victory Chime FX
+        let audioCtx = null;
+        function playAnimalRoarSound() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            // Low Roar / Rumble
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(110, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(35, audioCtx.currentTime + 0.4);
+
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.4);
+
+            // High Fanfare Note
+            setTimeout(() => {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                osc2.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+
+                gain2.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain2.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start();
+                osc2.stop(audioCtx.currentTime + 0.35);
+            }, 100);
+        }
+
+        // Particle Engine for Floating Large Animals Celebration
+        class AnimalParticle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 40 + 35; // Large animals
+                this.vy = - (Math.random() * 3 + 2);
+                this.vx = (Math.random() - 0.5) * 2;
+                this.rot = Math.random() * Math.PI * 2;
+                this.vRot = (Math.random() - 0.5) * 0.05;
+                const animals = ['🦁', '🐘', '🐻', '🦅', '🐼', '🐯', '🦒', '🦏', '🦛'];
+                this.char = animals[Math.floor(Math.random() * animals.length)];
+                this.opacity = 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rot += this.vRot;
+                if (this.y < -50) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rot);
+                ctx.font = `${this.size}px serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.char, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        let particles = [];
+        function triggerAnimalCelebration() {
+            playAnimalRoarSound();
+            particles = [];
+            for (let i = 0; i < 30; i++) {
+                particles.push(new AnimalParticle());
+            }
+
+            let duration = 0;
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                duration++;
+                if (duration < 180) { // Run celebration for ~3 seconds
+                    animId = requestAnimationFrame(loop);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            if (animId) cancelAnimationFrame(animId);
+            loop();
+        }
+
+        // State Tracking & Worked Solutions for 6.4
+        const qState = {
+            q1: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Product property: \\(\\log_b(xy) = \\log_b x + \\log_b y\\).", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_b(5 \\cdot 8) = \\log_b 5 + \\log_b 8\\]" 
+            },
+            q2: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Product property applies to all factors in the argument.", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_7 8xy = \\log_7 8 + \\log_7 x + \\log_7 y\\]" 
+            },
+            q3: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Quotient property: \\(\\log_b(x/y) = \\log_b x - \\log_b y\\).", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_b \\frac{x}{9} = \\log_b x - \\log_b 9\\]" 
+            },
+            q4: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Expand to \\(\\log_4 x - \\log_4 32\\). Note that \\(32 = 4^{2.5} = 4^{5/2}\\).", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_4 \\frac{x}{32} = \\log_4 x - \\log_4 32 = \\log_4 x - \\frac{5}{2} \\quad \\text{or} \\quad \\log_4 x - 2.5\\]" 
+            },
+            q5: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Combine: \\(\\log_7(5 \\cdot 7)\\). What is \\(5 \\times 7\\)?", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_7 5 + \\log_7 7 = \\log_7(5 \\cdot 7) = \\log_7 35\\]" 
+            },
+            q6: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Combine: \\(\\log_7(45 / 9)\\). Simplify the fraction.", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_7 45 - \\log_7 9 = \\log_7\\left(\\frac{45}{9}\\right) = \\log_7 5\\]" 
+            },
+            q7: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Combine numerator \\(5x\\) and denominator \\(10\\). Simplify \\(5x/10\\).", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_2 5 + \\log_2 x - \\log_2 10 = \\log_2\\left(\\frac{5x}{10}\\right) = \\log_2\\left(\\frac{x}{2}\\right)\\]" 
+            },
+            q8: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Combine into \\(\\log_7\\left(\\frac{3x \\cdot 6y}{9x}\\right)\\). Simplify.", 
+                worked: "<strong>Solution:</strong><br>\\[\\log_7 3x - \\log_7 9x + \\log_7 6y = \\log_7\\left(\\frac{3x \\cdot 6y}{9x}\\right) = \\log_7\\left(\\frac{18xy}{9x}\\right) = \\log_7 2y\\]" 
+            },
+            q9: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Move coefficients to exponents: \\(\\log_2 m^5 - \\log_2 n^2\\).", 
+                worked: "<strong>Solution:</strong><br>\\[5\\log_2 m - 2\\log_2 n = \\log_2 m^5 - \\log_2 n^2 = \\log_2\\left(\\frac{m^5}{n^2}\\right)\\]" 
+            },
+            q10: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Note that \\(3\\log_b 2p = \\log_b(2p)^3 = \\log_b 8p^3\\) and \\(n^{1/2} = \\sqrt{n}\\).", 
+                worked: "<strong>Solution:</strong><br>\\[4\\log_b m + \\frac{1}{2}\\log_b n - 3\\log_b 2p = \\log_b\\left(\\frac{m^4 \\sqrt{n}}{8p^3}\\right) \\quad \\text{or} \\quad \\log_b\\left(\\frac{m^4 n^{1/2}}{(2p)^3}\\right)\\]" 
+            },
+            q11: { 
+                attemptsLeft: 2, isCorrect: false, 
+                hint: "Hint: Rewrite constant \\(1\\) as \\(\\log_7 7\\). Then apply quotient rule.", 
+                worked: "<strong>Solution:</strong><br>\\[1 - 2\\log_7 x = \\log_7 7 - \\log_7 x^2 = \\log_7\\left(\\frac{7}{x^2}\\right)\\]" 
+            }
+        };
+
+        let correctCount = 0;
+
+        function updateScore() {
+            correctCount = Object.values(qState).filter(q => q.isCorrect).length;
+            document.getElementById('score-counter').textContent = correctCount;
+        }
+
+        function cleanStr(s) {
+            return s.toLowerCase().replace(/\s+/g, '');
+        }
+
+        function checkQuestion(qId) {
+            const q = qState[qId];
+            if (q.attemptsLeft <= 0 || q.isCorrect) return;
+
+            const feedbackEl = document.getElementById(`feedback-${qId}`);
+            const statusEl = document.getElementById(`status-${qId}`);
+            const btnEl = document.getElementById(`btn-${qId}`);
+            const val = cleanStr(document.getElementById(`input-${qId}`).value);
+
+            q.attemptsLeft--;
+            let isUserCorrect = false;
+
+            // Pattern evaluation logic for 6.4 problems
+            switch (qId) {
+                case 'q1': 
+                    if (val.includes("log_b5+log_b8") || val.includes("logb5+logb8") || val.includes("log_b(5)+log_b(8)")) isUserCorrect = true; 
+                    break;
+                case 'q2': 
+                    if (val.includes("log_78+log_7x+log_7y") || val.includes("log78+log7x+log7y") || val.includes("log_7(8)+log_7(x)+log_7(y)")) isUserCorrect = true; 
+                    break;
+                case 'q3': 
+                    if (val.includes("log_bx-log_b9") || val.includes("logbx-logb9") || val.includes("log_b(x)-log_b(9)")) isUserCorrect = true; 
+                    break;
+                case 'q4': 
+                    if (val.includes("log_4x-5/2") || val.includes("log_4x-2.5") || val.includes("log4x-2.5") || val.includes("log_4(x)-2.5")) isUserCorrect = true; 
+                    break;
+                case 'q5': 
+                    if (val.includes("log_735") || val.includes("log735") || val.includes("log_7(35)")) isUserCorrect = true; 
+                    break;
+                case 'q6': 
+                    if (val.includes("log_75") || val.includes("log75") || val.includes("log_7(5)")) isUserCorrect = true; 
+                    break;
+                case 'q7': 
+                    if (val.includes("log_2(x/2)") || val.includes("log2(x/2)") || val.includes("log_2(0.5x)") || val.includes("log_2(1/2x)")) isUserCorrect = true; 
+                    break;
+                case 'q8': 
+                    if (val.includes("log_7(2y)") || val.includes("log7(2y)") || val.includes("log_72y")) isUserCorrect = true; 
+                    break;
+                case 'q9': 
+                    if (val.includes("log_2(m^5/n^2)") || val.includes("log2(m^5/n^2)") || val.includes("log_2(m^5n^-2)")) isUserCorrect = true; 
+                    break;
+                case 'q10': 
+                    if (val.includes("8p^3") || val.includes("(2p)^3") || val.includes("log_b")) isUserCorrect = true; 
+                    break;
+                case 'q11': 
+                    if (val.includes("log_7(7/x^2)") || val.includes("log7(7/x^2)") || val.includes("log_7(7x^-2)")) isUserCorrect = true; 
+                    break;
+            }
+
+            feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+            if (isUserCorrect) {
+                q.isCorrect = true;
+                feedbackEl.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+                feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Correct! Great job.`;
+                statusEl.textContent = "Status: Correct";
+                btnEl.disabled = true;
+                btnEl.className = "px-5 py-2.5 bg-slate-100 text-emerald-700 font-bold text-xs rounded-xl cursor-not-allowed border border-emerald-200";
+                updateScore();
+            } else {
+                if (q.attemptsLeft > 0) {
+                    feedbackEl.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600"></i> Incorrect. You have 1 attempt remaining.<br>${q.hint}`;
+                    statusEl.textContent = "Attempts left: 1";
+                } else {
+                    feedbackEl.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+                    feedbackEl.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> Incorrect (0 attempts left).<br>${q.worked}`;
+                    statusEl.textContent = "Status: Out of attempts";
+                    btnEl.disabled = true;
+                    btnEl.className = "px-5 py-2.5 bg-slate-100 text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed border border-slate-200";
+                    if (window.MathJax) window.MathJax.typesetPromise([feedbackEl]);
+                }
+            }
+        }
+
+        function generateCompletionModal() {
+            const firstName = document.getElementById('student-first-name').value.trim() || "Anonymous";
+            const lastName = document.getElementById('student-last-name').value.trim() || "Student";
+            const fullName = `${firstName} ${lastName}`;
+
+            updateScore();
+            triggerAnimalCelebration();
+
+            const durationSec = Math.round((Date.now() - moduleStartTime) / 1000);
+            
+            let qBreakdown = [];
+            Object.keys(qState).forEach((key, index) => {
+                const q = qState[key];
+                const statusChar = q.isCorrect ? 'S' : 'F';
+                const atts = 2 - q.attemptsLeft;
+                qBreakdown.push(`Q${index+1}:${statusChar}:${atts}:30s`);
+            });
+
+            const payloadStr = `${lastName}, ${firstName}|${correctCount}/11|${durationSec}s|${qBreakdown.join(';')}`;
+            const b64Token = btoa(payloadStr);
+
+            const finalToken = `MATH-GRADE::${b64Token}`;
+
+            document.getElementById('modal-student-name').textContent = `Student: ${fullName}`;
+            document.getElementById('modal-score-badge').textContent = `Score: ${correctCount} / 11 (${Math.round((correctCount/11)*100)}%)`;
+            document.getElementById('token-display').textContent = finalToken;
+
+            document.getElementById('completion-modal').classList.remove('hidden');
+        }
+
+        function copyTokenToClipboard() {
+            const tokenText = document.getElementById('token-display').textContent;
+            navigator.clipboard.writeText(tokenText).then(() => {
+                const btn = document.getElementById('copy-token-btn');
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Token Copied!`;
+                btn.className = "w-full py-2 bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-2";
+                setTimeout(() => {
+                    btn.innerHTML = `<i class="fa-solid fa-copy"></i> Copy Token to Clipboard`;
+                    btn.className = "w-full py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-2";
+                }, 2000);
+            });
+        }
+
+        function closeCompletionModal() {
+            document.getElementById('completion-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
